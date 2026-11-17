@@ -79,14 +79,13 @@ Windows 编译器可能无法正确处理中文或带空格的源码路径。可
 
 本机资料统一放在 `local/`，不提交 Git：
 
-- `local/backups`：原系统整片备份。
 - `local/releases`：Windows、Mac 安装包和固件二进制。
 - `local/records`：交接记录、验证报告及内部设计资料。
 - `local/config`：归档的本机构建配置。
 - `local/work`：工具下载、运行状态、测试记录和临时文件。
 - `local/build`：归档的固件构建产物。
 
-本机已有的启动和恢复入口位于 `local/启动提醒器.cmd`、`local/恢复原系统.cmd`，与安装包、备份保持相对路径。恢复脚本仅供对应设备使用，不随公开仓库分发。
+本机已有的提醒器启动入口位于 `local/启动提醒器.cmd`，与安装包保持相对路径。设备原系统备份、恢复工具及对应记录独立保存在项目目录之外，不随公开仓库分发。
 
 `desktop/node_modules`、`desktop/dist` 和 `firmware/managed_components` 是开发工具生成的依赖源码或编译代码，保留在各自工具要求的位置，同样不提交 Git。
 
