@@ -6,6 +6,8 @@
 #include "esp_timer.h"
 #include "alert_app.h"
 LV_FONT_DECLARE(alert_font);
+/** 覆盖固定中文文案的小字号字体，其他字符回退到 LVGL 字库。 */
+LV_FONT_DECLARE(alert_font_small);
 /** 界面元素和动画状态，仅在 LVGL 锁内使用。 */
 static lv_obj_t *screen;
 static lv_obj_t *connection_label;
@@ -61,13 +63,13 @@ void alert_ui_start(void)
     lv_obj_add_flag(screen, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_set_style_bg_opa(screen, LV_OPA_COVER, 0);
     lv_obj_add_event_cb(screen, on_touch, LV_EVENT_CLICKED, NULL);
-    connection_label = create_label(&lv_font_source_han_sans_sc_16_cjk, 64, 300);
-    code_label = create_label(&lv_font_source_han_sans_sc_16_cjk, 88, 300);
+    connection_label = create_label(&alert_font_small, 64, 300);
+    code_label = create_label(&alert_font_small, 88, 300);
     heading_label = create_label(&alert_font, 118, 340);
     count_label = create_label(&lv_font_montserrat_48, 186, 320);
-    title_label = create_label(&lv_font_source_han_sans_sc_16_cjk, 274, 320);
+    title_label = create_label(&alert_font_small, 274, 320);
     lv_obj_set_height(title_label, 62);
-    footer_label = create_label(&lv_font_source_han_sans_sc_16_cjk, 354, 300);
+    footer_label = create_label(&alert_font_small, 354, 300);
     // 独立按钮不向屏幕冒泡，切换授权时保留未确认提醒。
     lv_obj_t *reauthorize_button = lv_button_create(screen);
     lv_obj_set_size(reauthorize_button, 190, 42);
@@ -75,7 +77,7 @@ void alert_ui_start(void)
     lv_obj_remove_flag(reauthorize_button, LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_add_event_cb(reauthorize_button, on_reauthorize, LV_EVENT_LONG_PRESSED, NULL);
     lv_obj_t *button_label = lv_label_create(reauthorize_button);
-    lv_obj_set_style_text_font(button_label, &lv_font_source_han_sans_sc_16_cjk, 0);
+    lv_obj_set_style_text_font(button_label, &alert_font_small, 0);
     lv_label_set_text(button_label, "长按重新授权");
     lv_obj_center(button_label);
     lv_indev_set_long_press_time(bsp_display_get_input_dev(), 1200);
