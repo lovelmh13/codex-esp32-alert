@@ -9,8 +9,8 @@
     "test": "npm run build && node --experimental-strip-types --test tests/*.test.ts",
     "build": "tsc",
     "start": "electron .",
-    "package:win": "electron-packager . Codex提醒器 --platform=win32 --arch=x64 --out=../releases --overwrite --ignore=tests --ignore=src",
-    "package:mac": "electron-packager . Codex提醒器 --platform=darwin --arch=arm64 --out=../releases --overwrite --extend-info=mac-info.plist --ignore=tests --ignore=src"
+    "package:win": "electron-packager . Codex提醒器 --platform=win32 --arch=x64 --out=../local/releases --overwrite --ignore=tests --ignore=src",
+    "package:mac": "electron-packager . Codex提醒器 --platform=darwin --arch=arm64 --out=../local/releases --overwrite --extend-info=mac-info.plist --ignore=tests --ignore=src"
   },
   "devDependencies": {
     "@electron/packager": "^19.0.1",

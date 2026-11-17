@@ -41,10 +41,10 @@ def write_file(archive: ZipFile, name: str, content: bytes, is_executable: bool 
 def package(architecture: str):
     """验证官方运行时，添加编译后的应用及首次启动入口。"""
     validate_app_files(ROOT / "desktop")
-    runtime = ROOT / ".tools" / "electron-archives" / f"electron-v{RUNTIME_VERSION}-darwin-{architecture}.zip"
+    runtime = ROOT / "local" / "work" / "electron-archives" / f"electron-v{RUNTIME_VERSION}-darwin-{architecture}.zip"
     if hashlib.sha256(runtime.read_bytes()).hexdigest() != EXPECTED_HASHES[architecture]:
         raise ValueError("官方 Electron 运行时校验失败")
-    output = ROOT / "releases" / f"Codex提醒器-macOS-{architecture}.zip"
+    output = ROOT / "local" / "releases" / f"Codex提醒器-macOS-{architecture}.zip"
     if output.exists():
         raise FileExistsError(f"为避免覆盖已有交付，停止生成：{output}")
     output.parent.mkdir(parents=True, exist_ok=True)

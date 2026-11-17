@@ -41,11 +41,11 @@ npm start
 
 `npm test` 先编译 TypeScript 再执行测试。只编译可运行 `npm run build`。安装时若跳过了 Electron 安装脚本，可执行 `node node_modules/electron/install.js` 下载运行时。
 
-Windows 打包：`npm run package:win`，输出到 `releases/Codex提醒器-win32-x64`。运行时须保留整个目录，不能只复制 EXE。
+Windows 打包：`npm run package:win`，输出到 `local/releases/Codex提醒器-win32-x64`。运行时须保留整个目录，不能只复制 EXE。
 
-在 Apple 芯片 Mac 上打包：`npm run package:mac`。首次蓝牙权限提示选择允许；如被拒绝，在 macOS 系统设置中恢复权限。此构建命令不包含开发者签名或 Apple 公证。
+在 Apple 芯片 Mac 上打包：`npm run package:mac`，输出到 `local/releases`。首次蓝牙权限提示选择允许；如被拒绝，在 macOS 系统设置中恢复权限。此构建命令不包含开发者签名或 Apple 公证。
 
-`tools/package-mac.py` 提供 Windows 上生成 arm64 Mac ZIP 的另一条路径：先构建电脑端，并将该脚本指定版本的官方 Electron Darwin arm64 ZIP 放入 `.tools/electron-archives`。脚本校验运行时哈希，保留符号链接和可执行权限，并生成本机临时签名入口 `首次启动.command`。Mac 上完整解压后首次运行该入口，保留同目录的权限文件；后续直接打开应用。来源提示按 macOS“隐私与安全性”指引处理。此方式不需要开发者账号，也不关闭系统安全保护。
+`tools/package-mac.py` 提供 Windows 上生成 arm64 Mac ZIP 的另一条路径：先构建电脑端，并将该脚本指定版本的官方 Electron Darwin arm64 ZIP 放入 `local/work/electron-archives`。脚本校验运行时哈希，输出到 `local/releases`，保留符号链接和可执行权限，并生成本机临时签名入口 `首次启动.command`。Mac 上完整解压后首次运行该入口，保留同目录的权限文件；后续直接打开应用。来源提示按 macOS“隐私与安全性”指引处理。此方式不需要开发者账号，也不关闭系统安全保护。
 
 ## 固件构建
 
@@ -71,7 +71,24 @@ Windows 编译器可能无法正确处理中文或带空格的源码路径。可
 
 界面“生成 Hook 配置”可生成正式 `Stop` Hook 配置。自行合并到本机 `~/.codex/hooks.json` 并在 Codex 的 Hooks 设置中审阅、信任；程序不会覆盖原配置或修改信任数据库。Windows 和 Mac 应各自在本机生成配置，提醒器仍需运行。
 
-本仓库按文件白名单管理，不包含 Flash 备份、运行日志、聊天记录、设备连接码、本机授权配置、交接记录、安装包或签名私钥。应用状态和待投递队列保存在各电脑的本机应用数据目录。
+本仓库按文件白名单管理，并显式忽略 `local/`，不包含 Flash 备份、运行日志、聊天记录、设备连接码、本机授权配置、交接记录、安装包或签名私钥。应用状态和待投递队列保存在各电脑的本机应用数据目录。
+
+## 项目目录
+
+公开部分包含 `desktop/src`、`desktop/tests`、`firmware/main`、`firmware/tests`、构建配置、`tools`、README 和第三方许可。
+
+本机资料统一放在 `local/`，不提交 Git：
+
+- `local/backups`：原系统整片备份。
+- `local/releases`：Windows、Mac 安装包和固件二进制。
+- `local/records`：交接记录、验证报告及内部设计资料。
+- `local/config`：归档的本机构建配置。
+- `local/work`：工具下载、运行状态、测试记录和临时文件。
+- `local/build`：归档的固件构建产物。
+
+本机已有的启动和恢复入口位于 `local/启动提醒器.cmd`、`local/恢复原系统.cmd`，与安装包、备份保持相对路径。恢复脚本仅供对应设备使用，不随公开仓库分发。
+
+`desktop/node_modules`、`desktop/dist` 和 `firmware/managed_components` 是开发工具生成的依赖源码或编译代码，保留在各自工具要求的位置，同样不提交 Git。
 
 ## 验证范围
 
