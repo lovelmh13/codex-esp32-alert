@@ -1,0 +1,21 @@
+{
+  "name": "codex-esp32-alert",
+  "version": "1.0.0",
+  "description": "通过蓝牙向 ESP32 屏幕投递 Codex 本轮结束提醒",
+  "private": true,
+  "type": "module",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "npm run build && node --experimental-strip-types --test tests/*.test.ts",
+    "build": "tsc",
+    "start": "electron .",
+    "package:win": "electron-packager . Codex提醒器 --platform=win32 --arch=x64 --out=../releases --overwrite --ignore=tests --ignore=src",
+    "package:mac": "electron-packager . Codex提醒器 --platform=darwin --arch=arm64 --out=../releases --overwrite --extend-info=mac-info.plist --ignore=tests --ignore=src"
+  },
+  "devDependencies": {
+    "@electron/packager": "^19.0.1",
+    "@types/node": "^24.0.0",
+    "electron": "^40.0.0",
+    "typescript": "^5.9.0"
+  }
+}

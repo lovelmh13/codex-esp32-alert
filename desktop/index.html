@@ -1,0 +1,71 @@
+<!-- 职责：提供跨平台 Codex 提醒器的连接、状态和测试界面。 -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex 提醒器</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b1320; color: #e7edf6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; }
+    main { max-width: 650px; margin: auto; padding: 36px; }
+    .eyebrow { color: #63d8bc; font-size: 12px; letter-spacing: .14em; }
+    h1 { margin: 12px 0; font-size: 32px; font-weight: 650; }
+    p { color: #a6b3c6; font-size: 14px; line-height: 1.7; }
+    .card { border: 1px solid #28374a; background: #101e2e; border-radius: 20px; padding: 24px; margin: 26px 0 18px; }
+    .status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #a6b3c6; }
+    .status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #7b8797; }
+    .status.connected { color: #63d8bc; } .status.connected::before { background: #63d8bc; }
+    .count { font-size: 72px; font-weight: 600; margin: 18px 0 0; line-height: 1.2; }
+    .caption { color: #a6b3c6; font-size: 14px; margin-top: 8px; }
+    .queue { border-top: 1px solid #28374a; margin-top: 24px; padding-top: 18px; font-size: 13px; color: #a6b3c6; }
+    button { border: 1px solid #35465d; border-radius: 10px; padding: 12px 16px; background: #192b40; color: #e7edf6; cursor: pointer; font: inherit; font-size: 14px; }
+    button:hover { background: #213851; } button.primary { background: #63d8bc; border-color: #63d8bc; color: #081d20; font-weight: 600; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    #message { min-height: 46px; padding: 0 2px; overflow-wrap: anywhere; }
+    details { border-top: 1px solid #28374a; padding-top: 16px; color: #8e9db2; font-size: 12px; line-height: 1.7; }
+    summary { cursor: pointer; } #watch-home { overflow-wrap: anywhere; }
+    .quiet { font-size: 12px; color: #8292a9; margin-top: 20px; }
+    .authorization { margin-top: 18px; padding-top: 18px; border-top: 1px solid #28374a; }
+    .authorization label { display: block; margin-bottom: 8px; font-size: 13px; color: #a6b3c6; }
+    input { width: 150px; padding: 11px; border: 1px solid #35465d; border-radius: 10px; color: #e7edf6; background: #0b1320; font: inherit; letter-spacing: .1em; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">CODEX × ESP32</div>
+    <h1>安心做别的，结束时看一眼。</h1>
+    <p>Codex 本轮结束后，小屏幕会亮起并保留提示。<br>触摸屏幕确认，全程无声。</p>
+    <section class="card">
+      <div class="status" id="connection">等待蓝牙连接</div>
+      <div class="count" id="device-count">0</div>
+      <div class="caption" id="device-caption">设备正在等待任务</div>
+      <div class="queue">电脑待投递 <strong id="queue-count">0</strong> 条 · 断线时自动保存</div>
+    </section>
+    <div class="actions">
+      <button class="primary" id="connect">连接提醒器</button>
+      <button id="test">发送测试提醒</button>
+      <button id="clear">确认全部提醒</button>
+    </div>
+    <div class="authorization">
+      <label for="connection-code">设备连接码（首次连接可留空）</label>
+      <div class="actions">
+        <input id="connection-code" maxlength="6" inputmode="numeric" autocomplete="off" placeholder="屏幕六位数字">
+        <button id="reauthorize">重新授权设备</button>
+        <button id="release">切换到其他电脑</button>
+      </div>
+      <p>无法操作旧电脑时，在设备上长按“重新授权”1.2 秒，再到新电脑输入新连接码。</p>
+    </div>
+    <p id="message">正在启动本机监听。</p>
+    <details>
+      <summary>监听与接入设置</summary>
+      <p>当前监听目录：<span id="watch-home"></span></p>
+      <p>默认监听本机 Codex App 的完成记录。也可使用正式 Stop Hook，配置须在 Codex 中审阅并信任。</p>
+      <button id="hook">生成 Hook 配置</button>
+    </details>
+    <div class="quiet">“本轮结束”表示可以查看结果，不代表测试或任务成功。最小化窗口后继续监听，关闭窗口则退出。</div>
+  </main>
+  <script type="module" src="./dist/renderer.js"></script>
+</body>
+</html>

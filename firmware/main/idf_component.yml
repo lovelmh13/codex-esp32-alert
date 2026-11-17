@@ -1,0 +1,5 @@
+# 职责：固定屏幕板级支持、图形界面和 JSON 解析依赖。
+dependencies:
+  waveshare/esp32_s3_touch_amoled_1_75c: "^3.0.0"
+  lvgl/lvgl: "9.5.0"
+  espressif/cjson: "^1.7.19"
