@@ -67,13 +67,14 @@ void alert_ui_start(void)
     code_label = create_label(&alert_font_small, 88, 300);
     heading_label = create_label(&alert_font, 118, 340);
     count_label = create_label(&lv_font_montserrat_48, 186, 320);
-    title_label = create_label(&alert_font_small, 274, 320);
+    // 标题与底部提示上移，为加大的授权按钮留出触摸空间。
+    title_label = create_label(&alert_font_small, 260, 320);
     lv_obj_set_height(title_label, 62);
-    footer_label = create_label(&alert_font_small, 354, 300);
+    footer_label = create_label(&alert_font_small, 330, 300);
     // 独立按钮不向屏幕冒泡，切换授权时保留未确认提醒。
     lv_obj_t *reauthorize_button = lv_button_create(screen);
-    lv_obj_set_size(reauthorize_button, 190, 42);
-    lv_obj_align(reauthorize_button, LV_ALIGN_TOP_MID, 0, 386);
+    lv_obj_set_size(reauthorize_button, 260, 64);
+    lv_obj_align(reauthorize_button, LV_ALIGN_TOP_MID, 0, 354);
     lv_obj_remove_flag(reauthorize_button, LV_OBJ_FLAG_EVENT_BUBBLE);
     lv_obj_add_event_cb(reauthorize_button, on_reauthorize, LV_EVENT_LONG_PRESSED, NULL);
     lv_obj_t *button_label = lv_label_create(reauthorize_button);
